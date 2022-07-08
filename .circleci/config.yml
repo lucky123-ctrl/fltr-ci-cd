@@ -6,15 +6,15 @@ jobs:
     docker:
       - image: cirrusci/flutter
     steps:
-      - run: echo "Flutter docker image built"
-      - run: echo "Yayyyyy!!!!!!"
+      - run: Flutter docker image built
+      - run: Yayyyyy!!!!!!
   
   pull-repo:
     docker:
       - image: cirrusci/flutter
     steps:
       - checkout
-      - run: echo "repo pulled"
+      - run: repo pulled
 
   test-app:
     docker:
@@ -23,7 +23,7 @@ jobs:
       - checkout
       - run: flutter doctor
       - run: flutter test
-      - run: echo "flutter testing complete"
+      - run: flutter testing complete
 
   build-app:
     docker:
