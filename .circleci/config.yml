@@ -1,0 +1,53 @@
+
+version: 2.1
+
+jobs:
+  build-docker-image:
+    docker:
+      - image: cirrusci/flutter
+    steps:
+      - run: echo "Flutter docker image built"
+      - run: echo "Yayyyyy!!!!!!"
+  
+  pull-repo:
+    docker:
+      - image: cirrusci/flutter
+    steps:
+      - checkout
+      - run: echo "repo pulled"
+
+  test-app:
+    docker:
+      - image: cirrusci/flutter
+    steps:
+      - checkout
+      - run: flutter doctor
+      - run: flutter test
+      - run: echo "flutter testing complete"
+
+  build-app:
+    docker:
+      - image: cirrusci/flutter
+    steps:
+      - checkout
+      - run: flutter apk --release
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
+      - run: echo "apk build and can find in the artifacts"
+
+workflows:
+  version: 2
+  flutter-test-build:
+    jobs:
+      - build-docker-image
+      - pull-repo:
+          requires:
+            - build-docker-image
+      - test-app:
+          requires:
+            - build-docker-image
+      - build-app:
+          requires:
+            - test-app
+
+          
